@@ -278,3 +278,25 @@ onClick('zoomIn', function(evt) {
     
 });
 
+////here is the export to png-controller
+
+
+
+var exportOptions = {
+    filter: function(element) {
+      return element.className ? element.className.indexOf('ol-control') === -1 : true;
+    }
+  };
+  
+  document.getElementById('export').addEventListener('click', function() {
+    map.once('rendercomplete', function() {
+      htmlToImage.toPng(map.getTargetElement(), exportOptions)
+        .then(function(dataURL) {
+          var link = document.getElementById('image-download');
+          link.href = dataURL;
+          link.click();
+        });
+    });
+    map.renderSync();
+  });
+  
